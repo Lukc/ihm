@@ -29,10 +29,13 @@ GroupBox {
 		width: 800
 
 		Rectangle {
+			Layout.minimumHeight: 80
+			Layout.preferredWidth: parent.width
 			Layout.topMargin: 30
 
 			Row {
 				anchors.verticalCenter: parent.verticalCenter
+				spacing: 5
 
 				Text {
 					width: 100
@@ -44,6 +47,7 @@ GroupBox {
 				}
 				Button {
 					text: "Open"
+					width: 153
 					id: openValveButton
 					onClicked: {
 						if (isValveAlarmed) {
@@ -61,6 +65,7 @@ GroupBox {
 				}
 				Button {
 					text: "Close"
+					width: 152
 					id: closeValveButton
 					onClicked: {
 						if (isValveAlarmed) {
@@ -81,31 +86,39 @@ GroupBox {
 					onClicked: alarmValve(index)
 				}
 			}
-
-			Layout.minimumHeight: 80
-			Layout.preferredWidth: parent.width
 		}
 		Rectangle {
 			Layout.minimumHeight: 120
 			Layout.preferredWidth: parent.width
-			RowLayout {
-				Rectangle {
+
+			Row {
+				spacing: 5
+
+				Text {
 					width: 100
 
-					Text {
-						text: "Gate"
-					}
+					text: "Gate"
 				}
+
 				Column {
 					Layout.row: 2
+					spacing: 5
 
 					ExclusiveGroup {
 						id: gateGroup
 					}
 
+					Item {
+						width: 1
+						height: 5
+					}
+
 					Row {
+						spacing: 5
+
 						Button {
 							text: "Open"
+							width: 100
 							checkable: true
 							exclusiveGroup: gateGroup
 							onClicked: {
@@ -121,6 +134,7 @@ GroupBox {
 						}
 						Button {
 							text: "Stop"
+							width: 100
 							checkable: true
 							checked: false
 							exclusiveGroup: gateGroup
@@ -131,6 +145,7 @@ GroupBox {
 						}
 						Button {
 							text: "Close"
+							width: 100
 							checkable: true
 							checked: true
 							exclusiveGroup: gateGroup
@@ -151,6 +166,8 @@ GroupBox {
 						}
 					}
 					Row {
+						spacing: 5
+
 						ProgressBar {
 							id: gateProgressBar
 							Layout.preferredWidth: parent.width
@@ -160,12 +177,15 @@ GroupBox {
 						Text {
 							id: gateStatusText
 							text: gateStatus
+							anchors.verticalCenter: parent.verticalCenter
 						}
 					}
 				}
+				Item {
+					width: 5
+					height: 1
+				}
 				ColumnLayout {
-					Layout.row: 3
-
 					Rectangle {
 						height: 40
 
