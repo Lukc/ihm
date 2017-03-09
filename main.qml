@@ -37,6 +37,8 @@ ApplicationWindow {
 			waterLevelAutoIndicator.value = 1. * waterLevel / 10
 			waterLevelText.text = (waterLevel * 10) + " %"
 
+			upperSide.isValveOpened = Simulation.getValveOpened(0);
+			lowerSide.isValveOpened = Simulation.getValveOpened(1);
 			upperSide.isValveAlarmed = Simulation.getValveAlarm(0);
 			lowerSide.isValveAlarmed = Simulation.getValveAlarm(1);
 

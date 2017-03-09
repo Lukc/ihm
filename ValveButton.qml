@@ -61,11 +61,10 @@ GroupBox {
 							return;
 						}
 
-						isValveOpened = true
 						openValve(index)
 					}
 					checkable: true
-					checked: gateProgress == 1
+					checked: isValveOpened
 					exclusiveGroup: valveGroup
 				}
 				Button {
@@ -79,11 +78,10 @@ GroupBox {
 							return;
 						}
 
-						isValveOpened = false
 						closeValve(index)
 					}
 					checkable: true
-					checked: gateProgress == 0
+					checked: !isValveOpened
 					exclusiveGroup: valveGroup
 				}
 				AlarmButton {

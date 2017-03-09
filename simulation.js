@@ -123,6 +123,10 @@ function getWaterLevel() {
 	return waterLevel - waterLevel % 1;
 }
 
+function getValveOpened(index) {
+	return valves[index].open
+}
+
 function getValveAlarm(index) {
 	return valves[index].alarm
 }
