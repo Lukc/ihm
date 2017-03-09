@@ -189,44 +189,16 @@ ApplicationWindow {
 		}
 	}
 
-	Grid {
+	LoginGrid {
 		id: loginGrid
 		visible: false
-		columns: 2
-		rows: 3
-
-		anchors.horizontalCenter: parent.horizontalCenter
-		anchors.verticalCenter: parent.verticalCenter
-
-		Text {
-			text: "Login: "
+		onGoBack: {
+			loginGrid.visible = false;
+			automatic.visible = true;
 		}
-		TextField {
-			id: login
-		}
-		Text {
-			text: "Password: "
-		}
-		TextField {
-			id: password
-			echoMode: TextField.Password
-		}
-		Button {
-			text: "Go back"
-			onClicked: {
-				loginGrid.visible = false;
-				automatic.visible = true;
-			}
-		}
-		Button {
-			text: "Log in!"
-
-			onClicked: {
-				if (login.text == "foo" && password.text == "bleh") {
-					loginGrid.visible = false;
-					manual.visible = true;
-				}
-			}
+		onLoggedIn: {
+			loginGrid.visible = false;
+			manual.visible = true;
 		}
 	}
 
