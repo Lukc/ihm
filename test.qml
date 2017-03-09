@@ -258,6 +258,7 @@ ApplicationWindow {
 					onOpenGate: Simulation.openGate(index)
 					onCloseGate: Simulation.closeGate(index)
 					onAlarmGate: Simulation.restoreGate(index)
+					onStopGate: Simulation.stopGate(index)
 					gateProgress: Simulation.getGateProgress(index);
 				}
 
@@ -277,6 +278,7 @@ ApplicationWindow {
 					onOpenGate: Simulation.openGate(index)
 					onCloseGate: Simulation.closeGate(index)
 					onAlarmGate: Simulation.restoreGate(index)
+					onStopGate: Simulation.stopGate(index)
 					gateProgress: Simulation.getGateProgress(index);
 				}
 

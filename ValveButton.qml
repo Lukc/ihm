@@ -23,6 +23,7 @@ GroupBox {
 	signal openGate(int id)
 	signal closeGate(int id)
 	signal alarmGate(int id)
+	signal stopGate(int id)
 
 	ColumnLayout {
 		width: 800
@@ -116,6 +117,16 @@ GroupBox {
 
 								isGateOpening = true
 								openGate(index)
+							}
+						}
+						Button {
+							text: "Stop"
+							checkable: true
+							checked: false
+							exclusiveGroup: gateGroup
+							onClicked: {
+								isGateOpening = false
+								stopGate(index)
 							}
 						}
 						Button {

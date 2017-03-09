@@ -141,6 +141,15 @@ function restoreGate(index) {
 	gates[index].alarm = false
 }
 
+function stopGate(index) {
+	if (gates[index].open == 0) {
+		return;
+	} else if (gates[index].open == 1) {
+		return;
+	}
+	gates[index].status = "stopped"
+}
+
 function addFailures() {
 	valves[0].alarm = true
 	gates[1].alarm = true
