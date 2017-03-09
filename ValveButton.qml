@@ -28,6 +28,8 @@ GroupBox {
 	signal setSignal(int id, string signal)
 	signal unsetSignal(int id, string signal)
 
+	property var openGateCondition;
+
 	property string signalColor: "red"
 
 	ColumnLayout {
@@ -120,37 +122,8 @@ GroupBox {
 						spacing: 5
 
 						Button {
-							text: "Open"
-							width: 100
-							checkable: true
-							exclusiveGroup: gateGroup
-							onClicked: {
-								if (isGateAlarmed) {
-									checked = isGateOpening;
-									closeGateButton.checked = !isGateOpening;
-									return;
-								}
-
-								isGateOpening = true
-								openGate(index)
-							}
-						}
-						Button {
-							text: "Stop"
-							width: 100
-							checkable: true
-							checked: false
-							exclusiveGroup: gateGroup
-							onClicked: {
-								isGateOpening = false
-								stopGate(index)
-							}
-						}
-						Button {
 							text: "Close"
 							width: 100
-							checkable: true
-							checked: true
 							exclusiveGroup: gateGroup
 							onClicked: {
 								if (isGateAlarmed) {
@@ -161,6 +134,35 @@ GroupBox {
 
 								isGateOpening = false
 								closeGate(index)
+							}
+						}
+						Button {
+							text: "Stop"
+							width: 100
+							exclusiveGroup: gateGroup
+							onClicked: {
+								isGateOpening = false
+								stopGate(index)
+							}
+						}
+						Button {
+							text: "Open"
+							width: 100
+							exclusiveGroup: gateGroup
+							onClicked: {
+								if (isGateAlarmed) {
+									checked = isGateOpening;
+									closeGateButton.checked = !isGateOpening;
+									return;
+								}
+
+								if (!openGateCondition()) {
+									checked = false;
+									return;
+								}
+
+								isGateOpening = true
+								openGate(index)
 							}
 						}
 						AlarmButton {

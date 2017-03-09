@@ -273,6 +273,10 @@ ApplicationWindow {
 
 					onSetSignal: Simulation.setSignal(index, signalColor);
 					onUnsetSignal: Simulation.unsetSignal(index, signalColor);
+
+					openGateCondition: function() {
+						return Simulation.getWaterLevel() == 10
+					}
 				}
 
 				ValveButton {
@@ -296,6 +300,11 @@ ApplicationWindow {
 
 					onSetSignal: Simulation.setSignal(index, signalColor);
 					onUnsetSignal: Simulation.unsetSignal(index, signalColor);
+
+					openGateCondition: function() {
+						console.log(" // " + Simulation.getWaterLevel() == 0)
+						return Simulation.getWaterLevel() == 0
+					}
 				}
 
 				ColumnLayout {
