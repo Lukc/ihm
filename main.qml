@@ -27,12 +27,15 @@ ApplicationWindow {
 		interval: 100
 		repeat: true
 		running: true
+
 		onTriggered: {
 			Simulation.update();
 
-			waterLevelIndicator.value = 1. * Simulation.getWaterLevel()/10;
-			waterLevelAutoIndicator.value = 1. * Simulation.getWaterLevel() / 10
-			waterLevelText.text = (Simulation.getWaterLevel() * 10) + " %"
+			var waterLevel = Simulation.getWaterLevel();
+
+			waterLevelIndicator.value = 1. * waterLevel/10;
+			waterLevelAutoIndicator.value = 1. * waterLevel / 10
+			waterLevelText.text = (waterLevel * 10) + " %"
 
 			upperSide.isValveAlarmed = Simulation.getValveAlarm(0);
 			lowerSide.isValveAlarmed = Simulation.getValveAlarm(1);
@@ -51,11 +54,56 @@ ApplicationWindow {
 
 			console.log("Valves: " + upperSide.isValveAlarmed + "/" + lowerSide.isValveAlarmed);
 			console.log("Gates: " + upperSide.isGateAlarmed + "/" + lowerSide.isGateAlarmed);
+
+			if (automatic.visible) {
+				if (upperSideAutomaticButton.checked) {
+					if (waterLevel == 10) {
+						Simulation.openGate(0)
+
+						if (Simulation.getGateProgress(0) == 1) {
+							upperSideAutomaticButton.checked = false;
+							Simulation.setSignal(0, "green");
+							Simulation.unsetSignal(1, "red");
+							Simulation.closeValve(0);
+
+							console.log("Should be good.");
+						}
+					} else if (waterLevel == 0) {
+						Simulation.closeGate(1);
+
+						if (Simulation.getGateProgress(1) == 0) {
+							Simulation.openValve(0);
+						}
+					}
+				} else if (lowerSideAutomaticButton.checked) {
+					console.log("+++" + waterLevel + "/ " + Simulation.getGateProgress(0));
+					if (waterLevel == 10) {
+						Simulation.closeGate(0);
+
+						if (Simulation.getGateProgress(0) == 0) {
+							Simulation.openValve(1);
+						}
+					} else if (waterLevel == 0) {
+						Simulation.openGate(1)
+
+						if (Simulation.getGateProgress(1) == 1) {
+							lowerSideAutomaticButton.checked = false;
+							Simulation.setSignal(1, "green");
+							Simulation.unsetSignal(0, "red");
+							Simulation.closeValve(1);
+
+							console.log("Should be good.");
+						}
+					}
+				}
+			}
 		}
 	}
 
 	Column {
 		id: automatic
+		visible: true
+
 		anchors.horizontalCenter: parent.horizontalCenter
 		anchors.verticalCenter: parent.verticalCenter
 
@@ -112,6 +160,7 @@ ApplicationWindow {
 			Row {
 				GroupBox {
 					title: "Valve"
+					id: lowerValve
 
 					height: 120
 					width: 180
@@ -126,11 +175,8 @@ ApplicationWindow {
 						checkable: true
 
 						onClicked: {
-							if (checked) {
-								Simulation.openValve(1);
-							} else {
-								Simulation.closeValve(1);
-							}
+							if (upperSideAutomaticButton.checked)
+								checked = false
 						}
 					}
 				}
@@ -140,6 +186,7 @@ ApplicationWindow {
 				}
 				GroupBox {
 					title: "Valve"
+					id: upperValve
 
 					height: 120
 					width: 180
@@ -154,11 +201,8 @@ ApplicationWindow {
 						checkable: true
 
 						onClicked: {
-							if (checked) {
-								Simulation.openValve(0);
-							} else {
-								Simulation.closeValve(0);
-							}
+							if (lowerSideAutomaticButton.checked)
+								checked = false
 						}
 					}
 				}

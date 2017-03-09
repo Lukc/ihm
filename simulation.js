@@ -15,13 +15,17 @@ var valves = [
 var gates = [
 	{
 		open: 0.,
-		status: "no-op",
-		alarm: false
+		status: "closed",
+		alarm: false,
+		green: false,
+		red: false
 	},
 	{
-		open: 0.,
-		status: "no-op",
-		alarm: false
+		open: 1.,
+		status: "open",
+		alarm: false,
+		green: false,
+		red: false
 	}
 ];
 
@@ -168,5 +172,13 @@ function lockEverything(index) {
 	gates[1].alarm = true;
 	valves[0].alarm = true;
 	valves[1].alarm = true;
+}
+
+function setSignal(index, signal) {
+	gates[index][signal] = true
+}
+
+function unsetSignal(index, signal) {
+	gates[index][signal] = false
 }
 
