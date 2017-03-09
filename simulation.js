@@ -96,8 +96,6 @@ function update() {
 		var gate = gates[i];
 
 		if (gate.alarm) {
-			console.log("Alarm?");
-
 			continue;
 		}
 
@@ -119,9 +117,6 @@ function update() {
 			}
 		}
 	}
-
-	console.log("Updated. " + gates[0].open);
-	console.log(getGateProgress(0) + ":" + getGateStatus(0) + ":" + getGateAlarm(0))
 }
 
 function getWaterLevel() {
@@ -129,7 +124,6 @@ function getWaterLevel() {
 }
 
 function getValveAlarm(index) {
-	console.log("Alarm of " + index + "…")
 	return valves[index].alarm
 }
 
@@ -175,10 +169,12 @@ function lockEverything(index) {
 }
 
 function setSignal(index, signal) {
+	console.log("Setting " + signal + " for the " + (index ? "lower" : "upper") + "side.");
 	gates[index][signal] = true
 }
 
 function unsetSignal(index, signal) {
+	console.log("Unsetting " + signal + " for the " + (index ? "lower" : "upper") + "side.");
 	gates[index][signal] = false
 }
 

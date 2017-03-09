@@ -26,7 +26,7 @@ Grid {
 	}
 	TextField {
 		id: password
-		echoMode: TextField.Password
+		echoMode: TextInput.Password
 		width: 180
 	}
 

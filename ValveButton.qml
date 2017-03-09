@@ -25,6 +25,11 @@ GroupBox {
 	signal alarmGate(int id)
 	signal stopGate(int id)
 
+	signal setSignal(int id, string signal)
+	signal unsetSignal(int id, string signal)
+
+	property string signalColor: "red"
+
 	ColumnLayout {
 		width: 800
 
@@ -60,7 +65,7 @@ GroupBox {
 						openValve(index)
 					}
 					checkable: true
-					checked: isValveOpened;
+					checked: gateProgress == 1
 					exclusiveGroup: valveGroup
 				}
 				Button {
@@ -78,7 +83,7 @@ GroupBox {
 						closeValve(index)
 					}
 					checkable: true
-					checked: isValveClosed
+					checked: gateProgress == 0
 					exclusiveGroup: valveGroup
 				}
 				AlarmButton {
@@ -197,10 +202,28 @@ GroupBox {
 						Button {
 							text: "Red"
 							checkable: true
+							onClicked: {
+								signalColor = "red"
+
+								if (checked) {
+									setSignal(index, "red")
+								} else {
+									unsetSignal(index, "red")
+								}
+							}
 						}
 						Button {
 							text: "Green"
 							checkable: true
+							onClicked: {
+								signalColor = "green"
+
+								if (checked) {
+									setSignal(index, "green")
+								} else {
+									unsetSignal(index, "green")
+								}
+							}
 						}
 					}
 				}

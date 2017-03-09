@@ -52,9 +52,6 @@ ApplicationWindow {
 			upperSide.gateStatus = Simulation.getGateStatus(0);
 			lowerSide.gateStatus = Simulation.getGateStatus(1);
 
-			console.log("Valves: " + upperSide.isValveAlarmed + "/" + lowerSide.isValveAlarmed);
-			console.log("Gates: " + upperSide.isGateAlarmed + "/" + lowerSide.isGateAlarmed);
-
 			if (automatic.visible) {
 				if (upperSideAutomaticButton.checked) {
 					if (waterLevel == 10) {
@@ -62,11 +59,12 @@ ApplicationWindow {
 
 						if (Simulation.getGateProgress(0) == 1) {
 							upperSideAutomaticButton.checked = false;
-							Simulation.setSignal(0, "green");
-							Simulation.unsetSignal(1, "red");
-							Simulation.closeValve(0);
 
-							console.log("Should be good.");
+							Simulation.setSignal(0, "green");
+							Simulation.unsetSignal(0, "red");
+							Simulation.setSignal(1, "red");
+							Simulation.unsetSignal(1, "green");
+							Simulation.closeValve(0);
 						}
 					} else if (waterLevel == 0) {
 						Simulation.closeGate(1);
@@ -76,7 +74,6 @@ ApplicationWindow {
 						}
 					}
 				} else if (lowerSideAutomaticButton.checked) {
-					console.log("+++" + waterLevel + "/ " + Simulation.getGateProgress(0));
 					if (waterLevel == 10) {
 						Simulation.closeGate(0);
 
@@ -88,11 +85,12 @@ ApplicationWindow {
 
 						if (Simulation.getGateProgress(1) == 1) {
 							lowerSideAutomaticButton.checked = false;
-							Simulation.setSignal(1, "green");
-							Simulation.unsetSignal(0, "red");
-							Simulation.closeValve(1);
 
-							console.log("Should be good.");
+							Simulation.setSignal(1, "green");
+							Simulation.unsetSignal(1, "red");
+							Simulation.setSignal(0, "red");
+							Simulation.unsetSignal(0, "green");
+							Simulation.closeValve(1);
 						}
 					}
 				}
@@ -177,6 +175,12 @@ ApplicationWindow {
 						onClicked: {
 							if (upperSideAutomaticButton.checked)
 								checked = false
+							else {
+								Simulation.setSignal(0, "red")
+								Simulation.setSignal(1, "red")
+								Simulation.unsetSignal(0, "green")
+								Simulation.unsetSignal(1, "green")
+							}
 						}
 					}
 				}
@@ -208,15 +212,16 @@ ApplicationWindow {
 				}
 			}
 		}
+		Item {
+			width: 1
+			height: 20
+		}
 		Button {
 			text: "Manual Control"
 			onClicked: {
 				automatic.visible = false
 				loginGrid.visible = true
 			}
-
-			anchors.bottom: parent.parent.bottom - 20
-			anchors.left: parent.parent.left + 20
 		}
 	}
 
@@ -263,6 +268,9 @@ ApplicationWindow {
 					onAlarmGate: Simulation.restoreGate(index)
 					onStopGate: Simulation.stopGate(index)
 					gateProgress: Simulation.getGateProgress(index);
+
+					onSetSignal: Simulation.setSignal(index, signalColor);
+					onUnsetSignal: Simulation.unsetSignal(index, signalColor);
 				}
 
 				ValveButton {
@@ -283,6 +291,9 @@ ApplicationWindow {
 					onAlarmGate: Simulation.restoreGate(index)
 					onStopGate: Simulation.stopGate(index)
 					gateProgress: Simulation.getGateProgress(index);
+
+					onSetSignal: Simulation.setSignal(index, signalColor);
+					onUnsetSignal: Simulation.unsetSignal(index, signalColor);
 				}
 
 				ColumnLayout {
