@@ -43,6 +43,9 @@ ApplicationWindow {
 			upperSide.gateProgress = Simulation.getGateProgress(0);
 			lowerSide.gateProgress = Simulation.getGateProgress(1);
 
+			upperGateProgressBar.value = 1 - Simulation.getGateProgress(0);
+			lowerGateProgressBar.value = 1 - Simulation.getGateProgress(1);
+
 			upperSide.gateStatus = Simulation.getGateStatus(0);
 			lowerSide.gateStatus = Simulation.getGateStatus(1);
 
@@ -67,22 +70,12 @@ ApplicationWindow {
 				height: 220
 				width: 80
 
-				Button {
+				ProgressBar {
+					id: lowerGateProgressBar
 					width: parent.width
 					height: parent.height - 20
 					anchors.bottom: parent.bottom
-
-					checkable: true
-
-					// FIXME: Checkable?
-
-					onClicked: {
-						if (checked) {
-							Simulation.openGate(1);
-						} else {
-							Simulation.closeGate(1);
-						}
-					}
+					orientation: Qt.Vertical
 				}
 			}
 			ProgressBar {
@@ -98,20 +91,12 @@ ApplicationWindow {
 				height: 220
 				width: 80
 
-				Button {
+				ProgressBar {
+					id: upperGateProgressBar
 					width: parent.width
 					height: parent.height - 20
 					anchors.bottom: parent.bottom
-
-					checkable: true
-
-					onClicked: {
-						if (checked) {
-							Simulation.openGate(0);
-						} else {
-							Simulation.closeGate(0);
-						}
-					}
+					orientation: Qt.Vertical
 				}
 			}
 			Rectangle {
@@ -132,6 +117,7 @@ ApplicationWindow {
 					width: 180
 
 					Button {
+						id: lowerSideAutomaticButton
 						text: "⇐"
 
 						height: parent.height - 20
@@ -159,6 +145,7 @@ ApplicationWindow {
 					width: 180
 
 					Button {
+						id: upperSideAutomaticButton
 						text: "⇐"
 
 						height: parent.height - 20
@@ -178,7 +165,7 @@ ApplicationWindow {
 			}
 		}
 		Button {
-			text: "Contrôle manuel"
+			text: "Manual Control"
 			onClicked: {
 				automatic.visible = false
 				loginGrid.visible = true
